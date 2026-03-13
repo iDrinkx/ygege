@@ -92,7 +92,7 @@ Lorsque `use_tor` est activé, toutes les connexions aux relais Nostr sont rout�
 | `proxy_password` | string | `null` | Mot de passe du proxy |
 
 :::info
-Ce proxy s'applique aux requêtes HTTP(S) sortantes, par exemple TMDB/IMDB. Les connexions Nostr continuent d'utiliser `use_tor` et `tor_proxy`.
+Ce proxy s'applique aux requêtes HTTP(S) sortantes, par exemple TMDB/IMDB, ainsi qu'aux connexions WebSocket vers les relais Nostr quand `use_tor` est désactivé. Pour les relais Nostr, utilisez une URL de proxy HTTP de type `http://...`. Si `use_tor` est activé, `tor_proxy` reste prioritaire pour les relais.
 :::
 
 ## Variables d'environnement

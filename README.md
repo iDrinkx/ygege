@@ -76,7 +76,7 @@ environment:
 
 ## Support proxy HTTP
 
-Ygégé peut aussi utiliser un proxy HTTP(S) sortant pour ses requêtes HTTP, dans le même esprit que Flaresolverr.
+Ygégé peut aussi utiliser un proxy HTTP(S) sortant pour ses requêtes HTTP.
 
 | Variable d'environnement | Défaut | Description |
 |--------------------------|--------|-------------|
@@ -94,7 +94,7 @@ environment:
 ```
 
 > [!NOTE]
-> Ce proxy s'applique aux requêtes HTTP(S) sortantes comme TMDB/IMDB. Les connexions Nostr continuent d'utiliser la configuration Tor si `USE_TOR` est activé.
+> Ce proxy s'applique aux requêtes HTTP(S) sortantes comme TMDB/IMDB, et aussi aux connexions WebSocket vers les relais Nostr quand `USE_TOR` est désactivé. Pour les relais Nostr, utilisez une URL de proxy HTTP de type `http://...`. Si `USE_TOR=true`, Tor reste prioritaire pour les connexions relais.
 
 ## Intégration à Prowlarr
 

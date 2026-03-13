@@ -65,6 +65,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         VERSION, BUILD_COMMIT, BUILD_BRANCH, BUILD_DATE
     );
 
+    let outbound_proxy = config.outbound_proxy();
+
     let http_client = match build_http_client(&config) {
         Ok(client) => client,
         Err(e) => {
@@ -75,6 +77,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if let Some(proxy_url) = config.proxy_url.as_deref() {
         info!("Outbound HTTP proxy enabled: {}", proxy_url);
+        if config.use_tor {
+            info!("Tor routing remains the transport for Nostr relay connections while USE_TOR is enabled");
+        } else {
+            info!("Nostr relay connections will use the outbound HTTP proxy");
+        }
     }
 
     if let Some(tmdb_token) = &config.tmdb_token {
@@ -98,7 +105,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     info!("Ranking Nostr relays by latency...");
-    let ranked_relays = rank_relays(config.use_tor, config.tor_proxy.as_deref()).await;
+    let ranked_relays = rank_relays(
+        config.use_tor,
+        config.tor_proxy.as_deref(),
+        outbound_proxy.as_ref(),
+    )
+    .await;
     if ranked_relays.is_empty() {
         error!(
             "No Nostr relays are reachable, try again later or check your network connection. Exiting."
@@ -115,7 +127,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             .join(", ")
     );
 
-    let nostr_client = NostrClient::new(ranked_relays, config.use_tor, config.tor_proxy.clone());
+    let nostr_client = NostrClient::new(
+        ranked_relays,
+        config.use_tor,
+        config.tor_proxy.clone(),
+        outbound_proxy,
+    );
 
     CATEGORIES_CACHE
         .set(init_categories())

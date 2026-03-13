@@ -123,6 +123,13 @@ pub struct Config {
     pub proxy_password: Option<String>,
 }
 
+#[derive(Debug, Clone)]
+pub struct OutboundProxyConfig {
+    pub url: String,
+    pub username: Option<String>,
+    pub password: Option<String>,
+}
+
 fn default_use_tor() -> bool {
     false
 }
@@ -140,6 +147,16 @@ impl Default for Config {
             proxy_username: None,
             proxy_password: None,
         }
+    }
+}
+
+impl Config {
+    pub fn outbound_proxy(&self) -> Option<OutboundProxyConfig> {
+        self.proxy_url.as_ref().map(|url| OutboundProxyConfig {
+            url: url.clone(),
+            username: self.proxy_username.clone(),
+            password: self.proxy_password.clone(),
+        })
     }
 }
 

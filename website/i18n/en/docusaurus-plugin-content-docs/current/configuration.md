@@ -90,7 +90,7 @@ When `use_tor` is enabled, all Nostr relay connections are routed through the To
 | `proxy_password` | string | `null` | Proxy password |
 
 :::info
-This proxy applies to outbound HTTP(S) requests, for example TMDB/IMDB. Nostr connections continue to use `use_tor` and `tor_proxy`.
+This proxy applies to outbound HTTP(S) requests, for example TMDB/IMDB, and also to WebSocket connections to Nostr relays when `use_tor` is disabled. For Nostr relays, use an HTTP proxy URL such as `http://...`. If `use_tor` is enabled, `tor_proxy` remains the preferred relay transport.
 :::
 
 ## Environment Variables

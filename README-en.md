@@ -84,7 +84,7 @@ environment:
 ```
 
 > [!NOTE]
-> This proxy applies to outbound HTTP(S) requests such as TMDB/IMDB. Nostr connections continue to use the Tor configuration if `USE_TOR` is enabled.
+> This proxy applies to outbound HTTP(S) requests such as TMDB/IMDB, and also to WebSocket connections to Nostr relays when `USE_TOR` is disabled. For Nostr relays, use an HTTP proxy URL such as `http://...`. If `USE_TOR=true`, Tor remains the preferred transport for relay connections.
 
 ## Prowlarr integration
 
